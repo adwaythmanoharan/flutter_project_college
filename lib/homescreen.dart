@@ -1,7 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:college_event/event_creation.dart';
+import 'package:college_event/payment_page.dart';
 
-class Homescreen extends StatelessWidget {
+class Homescreen extends StatefulWidget {
   const Homescreen({super.key});
+
+  @override
+  State<Homescreen> createState() => _HomescreenState();
+}
+
+class _HomescreenState extends State<Homescreen> {
+
+  List<Map<String, String>> events = [];
 
   @override
   Widget build(BuildContext context) {
@@ -9,11 +19,26 @@ class Homescreen extends StatelessWidget {
       backgroundColor: const Color(0xffeef7ff),
 
       // Floating + button
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: const Color(0xff4a8cff),
-        onPressed: () {},
-        child: const Icon(Icons.add),
+     floatingActionButton: FloatingActionButton(
+  backgroundColor: const Color(0xff4a8cff),
+  onPressed: () async {
+
+    final newEvent = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EventCreationPage(),
       ),
+    );
+
+    if (newEvent != null) {
+      setState(() {
+        events.add(newEvent);
+      });
+    }
+
+  },
+  child: const Icon(Icons.add),
+),
 
       body: SafeArea(
         child: Padding(
@@ -86,14 +111,74 @@ class Homescreen extends StatelessWidget {
 
 
               // Event cards list
-              Expanded(
-                child: ListView(
-                  children: const [
-                    EventCard(),
-                    EventCard(),
-                  ],
+             Expanded(
+  child: ListView(
+    children: events.map((event) {
+      return Card(
+        margin: const EdgeInsets.only(bottom: 20),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Text(
+                event['title'] ?? "",
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+
+              const SizedBox(height: 8),
+
+              Row(
+                children: [
+                  const Icon(Icons.calendar_today, size: 16),
+                  const SizedBox(width: 6),
+                  Text("${event['date']}  ${event['time']}"),
+                ],
+              ),
+
+              const SizedBox(height: 5),
+
+              Row(
+                children: [
+                  const Icon(Icons.location_on, size: 16),
+                  const SizedBox(width: 6),
+                  Text(event['location'] ?? ""),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PaymentPage(
+          eventName: event['title'] ?? "",
+        ),
+      ),
+    );
+  },
+  child: const Text("View Details"),
+),
+              ),
+
+            ],
+          ),
+        ),
+      );
+    }).toList(),
+  ),
+),
             ],
           ),
         ),
@@ -187,7 +272,20 @@ class EventCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+
+  final newEvent = await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const EventCreationPage(),
+    ),
+  );
+
+  if (newEvent != null) {
+    print(newEvent);
+  }
+
+},
                     child: const Text("View Details"),
                   ),
                 ),
