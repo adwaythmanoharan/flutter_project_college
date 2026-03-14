@@ -44,12 +44,12 @@ class _HomescreenState extends State<Homescreen> {
             ),
 
             ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+  leading: const Icon(Icons.home),
+  title: const Text("Home"),
+  onTap: () {
+    Navigator.pop(context); // closes the drawer and stays on Homescreen
+  },
+),
 
             ListTile(
               leading: const Icon(Icons.person),
