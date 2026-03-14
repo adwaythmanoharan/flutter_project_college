@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 
 class EventCreationPage extends StatefulWidget {
   const EventCreationPage({super.key});
@@ -22,6 +23,7 @@ class _EventCreationPageState extends State<EventCreationPage> {
   String selectedDepartment = "MCA";
 
   File? selectedImage;
+  Uint8List? webImage;
   final ImagePicker picker = ImagePicker();
 
   Future<void> pickDate() async {
@@ -53,14 +55,19 @@ class _EventCreationPageState extends State<EventCreationPage> {
   }
 
   Future<void> pickImage() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    if (image != null) {
-      setState(() {
-        selectedImage = File(image.path);
-      });
+  if (image != null) {
+
+    if (kIsWeb) {
+      webImage = await image.readAsBytes();
+    } else {
+      selectedImage = File(image.path);
     }
+
+    setState(() {});
   }
+}
 
   @override
   Widget build(BuildContext context) {

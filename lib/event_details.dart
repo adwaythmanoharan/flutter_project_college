@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'payment_page.dart';
 import 'dart:io';
 import 'user_page.dart';
+import 'package:flutter/foundation.dart';
 
 class EventDetailsPage extends StatelessWidget {
 

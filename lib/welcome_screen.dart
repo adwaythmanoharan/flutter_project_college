@@ -1,5 +1,6 @@
 import 'package:college_event/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
 class WelcomeScreen extends StatelessWidget {
   const WelcomeScreen({super.key});
@@ -7,66 +8,57 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffeef7ff),
+      backgroundColor: const Color(0xffeef7ff),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
 
-              ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: Image.asset(
-                  "assets/pic.jpg",
-                  width: double.infinity,
-                  //height: 209,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                const SizedBox(height: 20),
 
-              const SizedBox(height: 30),
-
-              const Text(
-                "Welcome to the",
-                style: TextStyle(fontSize: 24, color: Colors.black),
-              ),
-
-              const SizedBox(height: 0.5),
-
-              const Text(
-                "College Event App",
-                style: TextStyle(
-                  fontSize: 32,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const SizedBox(height: 60),
-
-              /*Align(
-                alignment: Alignment.centerLeft,
-                child: Text("In this app you can:")
-                ),*/
-
-
-                Center(
-                    child: SizedBox(
-                        width: 278,
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: const[Text("In this app you can")],
-                        ),
-                    ),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    "assets/pic.jpg",
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    fit: BoxFit.cover,
+                  ),
                 ),
 
-              const SizedBox(height: 20),
-              Center(
-                child: SizedBox(
-                  width: 285, // controls how far from the left it starts
+                const SizedBox(height: 30),
+
+                const Text(
+                  "Welcome to the",
+                  style: TextStyle(fontSize: 24, color: Colors.black),
+                ),
+
+                const Text(
+                  "College Event App",
+                  style: TextStyle(
+                    fontSize: 32,
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "In this app you can:",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                SizedBox(
+                  width: 285,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -75,47 +67,43 @@ class WelcomeScreen extends StatelessWidget {
                       bulletPoint("Show participation"),
                       bulletPoint("Fund for event"),
                     ],
-
-                    
                   ),
                 ),
-              ),
 
-              const Spacer(),
+                const SizedBox(height: 40),
 
-SizedBox(
-  width: double.infinity,
-  height: 55,
-  child: ElevatedButton(
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Homescreen(),
-        ),
-      );
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: const Color(0xff4a8cff),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(30),
-      ),
-    ),
-    child: const Text(
-      "Let's Get Started",
-      style: TextStyle(
-        fontSize: 18,
-        color: Colors.white,
-        fontWeight: FontWeight.w600,
-      ),
-    ),
-  ),
-),
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const Homescreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff4a8cff),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Text(
+                      "Let's Get Started",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
 
-
-
-const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
