@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 
 class EventCreationPage extends StatefulWidget {
   const EventCreationPage({super.key});
@@ -106,10 +107,17 @@ class _EventCreationPageState extends State<EventCreationPage> {
 
               const SizedBox(height: 15),
 
-              TextField(
-                controller: participantsController,
-                decoration: const InputDecoration(labelText: "Max Participants"),
-              ),
+              TextFormField(
+  controller: participantsController,
+  keyboardType: TextInputType.number,
+  decoration: const InputDecoration(
+    labelText: "Maximum Participants",
+    border: OutlineInputBorder(),
+  ),
+  inputFormatters: [
+    FilteringTextInputFormatter.digitsOnly
+  ],
+),
 
               const SizedBox(height: 15),
 

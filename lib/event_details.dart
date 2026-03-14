@@ -39,13 +39,14 @@ class EventDetailsPage extends StatelessWidget {
               ),
             ),
 
-            ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+           ListTile(
+  leading: const Icon(Icons.home),
+  title: const Text("Home"),
+  onTap: () {
+    Navigator.pop(context); // closes drawer
+    Navigator.pop(context); // removes EventDetailsPage → shows existing Homescreen
+  },
+),
 
             ListTile(
               leading: const Icon(Icons.person),
