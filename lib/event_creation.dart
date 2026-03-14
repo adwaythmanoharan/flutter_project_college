@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class EventCreationPage extends StatefulWidget {
   const EventCreationPage({super.key});
@@ -16,6 +18,11 @@ class _EventCreationPageState extends State<EventCreationPage> {
 
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
+
+  String selectedDepartment = "MCA";
+
+  File? selectedImage;
+  final ImagePicker picker = ImagePicker();
 
   Future<void> pickDate() async {
     DateTime? date = await showDatePicker(
@@ -45,18 +52,19 @@ class _EventCreationPageState extends State<EventCreationPage> {
     }
   }
 
-  void createEvent() {
+  Future<void> pickImage() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
 
-    Navigator.pop(context, {
-      "title": titleController.text,
-      "location": locationController.text,
-      "description": descriptionController.text,
-    });
-
+    if (image != null) {
+      setState(() {
+        selectedImage = File(image.path);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Create Event"),
@@ -72,70 +80,78 @@ class _EventCreationPageState extends State<EventCreationPage> {
 
               TextField(
                 controller: titleController,
-                decoration: const InputDecoration(
-                  labelText: "Event Name",
-                ),
+                decoration: const InputDecoration(labelText: "Event Name"),
               ),
 
               const SizedBox(height: 15),
 
               TextField(
                 controller: descriptionController,
-                decoration: const InputDecoration(
-                  labelText: "Description",
-                ),
+                decoration: const InputDecoration(labelText: "Description"),
               ),
 
               const SizedBox(height: 15),
 
               TextField(
                 controller: locationController,
-                decoration: const InputDecoration(
-                  labelText: "Location",
-                ),
+                decoration: const InputDecoration(labelText: "Location"),
               ),
 
               const SizedBox(height: 15),
 
               TextField(
                 controller: participantsController,
-                decoration: const InputDecoration(
-                  labelText: "Max Participants",
+                decoration: const InputDecoration(labelText: "Max Participants"),
+              ),
+
+              const SizedBox(height: 15),
+
+              DropdownButtonFormField<String>(
+                value: selectedDepartment,
+                decoration: const InputDecoration(labelText: "Department"),
+                items: const [
+                  DropdownMenuItem(value: "MCA", child: Text("MCA")),
+                  DropdownMenuItem(value: "MBA", child: Text("MBA")),
+                  DropdownMenuItem(value: "BCA", child: Text("BCA")),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    selectedDepartment = value!;
+                  });
+                },
+              ),
+
+              const SizedBox(height: 20),
+
+              ElevatedButton(
+                onPressed: pickDate,
+                child: Text(
+                  selectedDate == null
+                      ? "Select Date"
+                      : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              ElevatedButton(
+                onPressed: pickTime,
+                child: Text(
+                  selectedTime == null
+                      ? "Select Time"
+                      : selectedTime!.format(context),
                 ),
               ),
 
               const SizedBox(height: 20),
 
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: pickDate,
-                      child: Text(
-                        selectedDate == null
-                            ? "Select Date"
-                            : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              selectedImage != null
+                  ? Image.file(selectedImage!, height: 150)
+                  : const Text("No image selected"),
 
-              const SizedBox(height: 15),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: pickTime,
-                      child: Text(
-                        selectedTime == null
-                            ? "Select Time"
-                            : selectedTime!.format(context),
-                      ),
-                    ),
-                  ),
-                ],
+              ElevatedButton(
+                onPressed: pickImage,
+                child: const Text("Select Event Image"),
               ),
 
               const SizedBox(height: 30),
@@ -143,22 +159,26 @@ class _EventCreationPageState extends State<EventCreationPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-  onPressed: () {
+                  onPressed: () {
 
-    Navigator.pop(context, {
-  "title": titleController.text,
-  "location": locationController.text,
-  "date": selectedDate != null
-      ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
-      : "",
-  "time": selectedTime != null
-      ? selectedTime!.format(context)
-      : "",
-});
+                    Navigator.pop(context, {
+                      "title": titleController.text,
+                      "description": descriptionController.text,
+                      "location": locationController.text,
+                      "participants": participantsController.text,
+                      "department": selectedDepartment,
+                      "date": selectedDate != null
+                          ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
+                          : "",
+                      "time": selectedTime != null
+                          ? selectedTime!.format(context)
+                          : "",
+                      "image": selectedImage?.path ?? "",
+                    });
 
-  },
-  child: const Text("Submit Event"),
-),
+                  },
+                  child: const Text("Submit Event"),
+                ),
               ),
 
             ],

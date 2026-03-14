@@ -1,4 +1,7 @@
+import 'package:college_event/event_creation.dart';
+import 'package:college_event/event_details.dart';
 import 'package:college_event/homescreen.dart';
+import 'package:college_event/payment_page.dart';
 import 'package:college_event/welcome_screen.dart';
 import 'package:college_event/welcome_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +36,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: WelcomeScreen(),
+      home: const WelcomeScreen(),
     );
   }
 }
